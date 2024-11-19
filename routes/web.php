@@ -37,4 +37,9 @@ Route::get('/get/records', function (Request $request) {
     return response()->json($response);
 })->name('getRecords');
 
-
+// Update record
+Route::put('update/record', function (Request $request) {
+    $id = $request->query('id');
+    DB::update('update records set type = ?, account = ?, amount = ?, description = ? where id = ?', 
+                ['John']);
+});

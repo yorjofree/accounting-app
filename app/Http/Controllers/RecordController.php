@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Record;
 
 class RecordController extends Controller
 {
@@ -12,7 +13,7 @@ class RecordController extends Controller
      */
     public function index()
     {
-        $response = DB::select('select * from records');
+        $response = Record::all();
         return response()->json($response);
     }
 
@@ -29,13 +30,13 @@ class RecordController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->input();
-        DB::insert('insert into records (type, account, amount, description) values (?, ?, ?, ?)', 
-            [$input['type'], 
-            $input['account'], 
-            $input['amount'], 
-            $input['description']]
-        );
+        // $input = $request->input();
+        $record = new Record;
+        $record->type = $request->type;
+        $record->account = $request->account;
+        $record->amount = $request->amount;
+        $record->description = $request->description;
+        $record->save();
         return response('record correctly inserted', 200);
     }
 
@@ -60,14 +61,13 @@ class RecordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $input = $request->input();
-        DB::update('update records set type = ?, account = ?, amount = ?, description = ? where id = ?', 
-            [$input['type'],
-            $input['account'],
-            $input['amount'],
-            $input['description'],
-            $id]
-        );
+        // $input = $request->input();
+        $record = Record::find($id);
+        $record->type = $request->type;
+        $record->account = $request->account;
+        $record->amount = $request->amount;
+        $record->description = $request->description;
+        $record->save();
         return response('record updated', 200);    
     }
 
@@ -76,7 +76,8 @@ class RecordController extends Controller
      */
     public function destroy(string $id)
     {
-        DB::delete('delete from records where id = ?', [$id]);
-        return response(200);
+        $record = Record::find($id);
+        $record->delete();
+        return response(null, 200);
     }
 }

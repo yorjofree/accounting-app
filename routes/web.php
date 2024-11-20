@@ -40,6 +40,15 @@ Route::get('/get/records', function (Request $request) {
 // Update record
 Route::put('update/record', function (Request $request) {
     $id = $request->query('id');
+    $input = $request->input();
     DB::update('update records set type = ?, account = ?, amount = ?, description = ? where id = ?', 
-                ['John']);
-});
+                [$input['type'],
+                $input['account'],
+                $input['amount'],
+                $input['description'],
+                $id]
+    );
+    return response('record updated', 200);
+})->name('updateRecord');
+
+

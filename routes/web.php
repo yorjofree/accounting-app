@@ -38,7 +38,7 @@ Route::get('/get/records', function (Request $request) {
 })->name('getRecords');
 
 // Update record
-Route::put('update/record', function (Request $request) {
+Route::put('/update/record', function (Request $request) {
     $id = $request->query('id');
     $input = $request->input();
     DB::update('update records set type = ?, account = ?, amount = ?, description = ? where id = ?', 
@@ -51,4 +51,9 @@ Route::put('update/record', function (Request $request) {
     return response('record updated', 200);
 })->name('updateRecord');
 
-
+// Delete record
+Route::delete('/delete/record', function (Request $request) {
+    $id = $request->query('id');
+    DB::delete('delete from records where id = ?', [$id]);
+    return response(200);
+})->name('deleteRecord');

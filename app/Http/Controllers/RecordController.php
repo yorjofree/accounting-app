@@ -30,7 +30,6 @@ class RecordController extends Controller
      */
     public function store(Request $request)
     {
-        // $input = $request->input();
         $record = new Record;
         $record->type = $request->type;
         $record->account = $request->account;
@@ -61,7 +60,6 @@ class RecordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $input = $request->input();
         $record = Record::find($id);
         $record->type = $request->type;
         $record->account = $request->account;
